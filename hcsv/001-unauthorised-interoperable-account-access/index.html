@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCSV #001 - Unauthorised Interoperable Account Access</title>
+    <link rel="stylesheet" href="../hcsv-style.css">
+</head>
+<body>
+    <div style="padding: 0 24px 0 24px; margin-left: 8.3%; width: 85%; box-sizing: border-box; border-bottom: 1px solid crimson;">
+        <div style="margin-bottom: 12px; font-size: 14px; line-height: 20px; font-weight: 400; color: #567; box-sizing: border-box;">Author</div>
+        <div style="display: flex; padding-bottom: 4px; align-items: flex-start; flex-wrap: nowrap; box-sizing: border-box;">
+            <div style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
+                <a href="https://hydraulisc.net/sleepingami" style="line-height: 1.25; font-size: 16px; display: flex; font-weight: 600; margin-right: 32px; margin-bottom: 16px; align-items: center; flex-wrap: nowrap; text-decoration: none; box-sizing: border-box;">
+                    <img src="https://avatars.githubusercontent.com/u/143962821?v=4" alt="SleepingAmi" style="margin-right: 14px; max-width: 40px; height: auto; display: block; border-radius: 50%; box-sizing: border-box;">SleepingAmi
+                </a>
+            </div>
+        </div>
+        <h1>HCSV #001 - Unauthorised Interoperable Account Access</h1>
+    </div>
+    <h3>This paper goes over the Hydraulisc-Centric Security Vulnerability no.1 (<a href="https://about.hydraulisc.net/hcsv/001-unauthorised-interoperable-account-access">HCSV #001</a>)</h3>
+    <p><b>HSCV #001</b>, named "Unauthorised Interoperable Account Access", is a major security vulnerability that affects any and all Hydraulisc-powered platforms, including <a href="https://hydraulisc.net">The Hydraulisc App</a>.</p>
+    <p>This was a <b style="text-decoration: underline; color: red;">SEVERE</b> Security Vulnerability, to which we at Hydraulisc highly recommended you <b>change your password(s)!</b></p>
+    
+    <details>
+        <summary>Skip to</summary>
+        <ul>
+            <li><a href="#in-depth">Explanation: What is HCSV #001</a></li>
+            <li><a href="#patches">HCSV #001 Solutions</a></li>
+            <li><a href="#technical-spreadsheet">Technical Spreadsheet</a></li>
+        </ul>
+    </details>
+
+    <h3 id="in-depth">HCSV #001 - An in-depth explanation</h3>
+    <p>With HCSV #001, any and all Accounts across any and all Hydraulisc-powered Apps, Websites, etc. were <b>shared <i>publicly</i></b>.</p>
+    <p>Specifically, this Security Vulnerability targeted the Hydraulisc Authorisation Authority, the User Manager which handles Users their related User Objects and any other information regarding the specific User (including email, password, profile image, nickname, last seen status, custom status and trees).</p>
+    <p>We highly suggest you <b>change your password(s)</b>!</p>
+    <br>
+    <p>HCSV #001 created a server-side cache which logged new users into new connections under the account of the previously logged in user. This alone raises decent concern, as there's a decent amount of damage that can be done by simply being logged in to another user's account (email spoofing, account deletion, password changes, and in some extreme cases, accounts getting banned for violating a platform's rules). As a result, multiple Users, across multiple connections, on various devices, would all be logged into a single account and have full access as if it was their own.</p>
+    <p>Additionally, HCSV #001 Bypassed Captcha's, which allowed the new User to bypass most Captcha Challenges thrown at them on that specific platform, and Bypassed Password Confirmation prompts, which automatically forced a valid authorisation to the backend, which allowed destructive actions (password changes, account deletions, Enabling/Disabling 2-Factor Authorisation)</p>
+    <p>HCSV #001 also forced all write operations to the Hydraulisc Database to be valid, excluding some restricted actions.</p>
+    <h3 id="#patches">HCSV #001 - What's been done</h3>
+    <p>First of all, this is (at the time of writing) no longer a concern. The team at Hydraulisc-Centric Security Vulnerability have agreed this Security Vulnerability is no longer reproducible.</p>
+    <ul>
+        <li></li>
+    </ul>
+
+    <h3 style="display: none;" id="technical-spreadsheet">Technical Spreadsheet</h3>
+
+</body>
+</html>
