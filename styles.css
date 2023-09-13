@@ -5,7 +5,7 @@ a {
 img {
     object-fit: cover;
     overflow: hidden;
-    cursor: pointer;
+    cursor: default;
 }
 
 .darkTheme {
