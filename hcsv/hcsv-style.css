@@ -1,5 +1,35 @@
+a {
+    color: blue;
+}
+
+.no-list-style {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.author-and-title {
+    padding: 0 24px 0 24px;
+    margin-left: 8.3%;
+    width: 85%;
+    box-sizing: border-box;
+    border-bottom: 1px solid crimson;
+}
+
+.paper-content {
+    box-sizing: border-box;
+    width: 90%;
+    margin-left: 3.3%;
+}
+
 @media screen and (max-width: 991px){
     h1, h2, h3 {
         font-size: medium;
+    }
+    .author-and-title {
+        padding: 0 24px 0 24px;
+        margin-left: 3.8%;
+        width: 90%;
+        box-sizing: border-box;
+        border-bottom: 1px solid crimson;
     }
 }
