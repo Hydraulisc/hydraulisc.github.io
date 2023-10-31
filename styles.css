@@ -11,11 +11,13 @@ img {
 .darkTheme {
     background: black;
     color: white;
+    font-family: "Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
 .lightTheme {
     background: white;
     color: black;
+    font-family: "Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
 .info {
@@ -56,6 +58,27 @@ img {
 .header_logo {
     max-width: 100%;
     height: 44px;
+}
+
+.nav_anim_toggle {
+    position: absolute;
+    right: 98px;
+}
+
+.nav_anim_toggle_child, .nav_anim_toggle_child img {
+    cursor: pointer;
+}
+
+.navigator_drop {
+    margin: 175px auto;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    top: 4px;
+    margin: 0 auto;
+    background: white;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
 }
 
 .header_drop1 {
