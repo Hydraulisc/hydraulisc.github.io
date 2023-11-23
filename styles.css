@@ -324,6 +324,11 @@ img {
     top: 65px;
     max-width: 100%;
     width: 99%;
+    left: 3px;
+}
+
+.boody {
+    margin-top: 3rem;
 }
 
 @keyframes drip {
