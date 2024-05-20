@@ -30,8 +30,8 @@
         <h1>HCSV #002 - Illegal Account Re-Activation</h1>
     </div>
     <div class="paper-content">
-        <h3>This paper goes over the Hydraulisc-Centric Security Vulnerability no.2 (<a href="https://about.hydraulisc.net/hcsv/002-illegal-account-re-activation">HCSV #002</a>)</h3>
-        <p><b>HSCV #002</b>, named "<b>Illegal Account Re-Activation</b>", was a minor yet impactful database error that affected the Hydraulisc Authorisation Authority; the User Manager which handles Users, their related User Objects and any other information regarding the specific User (including email, password, profile image, banner, nickname, last seen status, custom status and trees). Inherently, this also affected all Hydraulisc-powered platforms, including <a href="https://hydraulisc.net">The Hydraulisc App</a>, that relied on the Hydraulisc Native Authorisation Manager.</p>
+        <h3>This paper goes over the Hydraulisc-Centric Security Vulnerability No.2 (<a href="https://about.hydraulisc.net/hcsv/002-illegal-account-re-activation">HCSV #002</a>)</h3>
+        <p><b>HSCV #002</b>, titled "<b>Illegal Account Re-Activation</b>", was a minor yet impactful database error that affected the Hydraulisc Authorisation Authority, the User Manager which handles Users, their related User Objects and any other information regarding the specific User (including email, password, profile image, banner, nickname, last seen status, custom status and trees). Inherently, this also affected all Hydraulisc-powered platforms, including <a href="https://hydraulisc.net">The Hydraulisc App</a>, that relied on the Hydraulisc Native Authorisation Manager.</p>
         <p>This was a <b style="text-decoration: underline; color: red;">MINOR</b> Security Vulnerability, which has already been patched.</p>
         
         <details>
@@ -43,9 +43,9 @@
             </ul>
         </details>
     
-        <h3 id="in-depth">HCSV #002 - An in-depth explanation</h3>
-        <p>With HCSV #002, any Accounts that had been deleted, suspended or otherwise forcefully logged out of by a server side cache purge, could stay logged in.</p>
-        <p>Specifically, this Security Vulnerability targeted the Hydraulisc Authorisation Authority; the User Manager which handles Users, their related User Objects and any other information regarding the specific User (including email, password, profile image, nickname, last seen status, custom status and trees).</p>
+        <h3 id="in-depth">HCSV #002 - An in-depth explanation</h3> 
+        <p>With HCSV #002, any Accounts that had been deleted, suspended or otherwise forcefully logged out of by a server side cache purge, could stay logged in and perform some actions.</p>
+        <p>Specifically, this Security Vulnerability targeted the Hydraulisc Authorisation Authority (the User Manager which handles Users, their related User Objects and any other information regarding the specific User including email, password, profile image, nickname, last seen status, custom status and trees).</p>
         <p>The issue persisted for only a few days before the reason was uncovered and a patch was deployed.</p>
         <br>
         <p>HCSV #002 abused the sessionID token handed to the Client connected to any Hydraulisc Platform, and issued a valid login status to the Hydraulisc Database, telling both that the User was still authorised, without requesting any confirmation from the Hydraulisc Authorisation Authority.</p>
@@ -55,9 +55,9 @@
         <h3 id="patches">HCSV #002 - What has been done</h3>
         <p>Please note, the team at Hydraulisc-Centric Security Vulnerability have agreed that this Security Vulnerability is no longer reproducible.</p>
         <ul>
-            <li>Minor code refactoring to optimise persistant authorisation.</li>
-            <p>Previously, the Hydraulisc Database and several Hydraulisc-powered Apps which relied on Hydraulisc's native User Manager, the Hydraulisc Authorisation Authority, relied on it's core functionality to handle User's and their related User Objects, therefore handling Authorisation and allowing or denying read/write operations as a whole.</p>
-            <p>This Security Vulnerability was caused due to a three way <a href="https://en.wikipedia.org/wiki/Handshake_(computing)" target="_blank">handshake</a> misconfiguration, which has been patched.</p>
+            <li>Minor code refactoring to optimize persistent authorisation.</li>
+            <p>Previously, the Hydraulisc Database and several Hydraulisc-powered Apps which relied on Hydraulisc's native User Manager, the Hydraulisc Authorisation Authority, relied on its core functionality to handle Users and their related User Objects, therefore handling Authorisation and allowing or denying read/write operations as a whole.</p>
+            <p>This Security Vulnerability was caused due to a three way <a href="https://en.wikipedia.org/wiki/Handshake_(computing)" target="_blank">handshake</a> misconfiguration, which has now been patched.</p>
             <li>Reinforced token regenerator for cryptographically-signed keys</li>
             <p>As an additional security step, we've also reinforced tokens to cryptographically-signed keys, which expire every 9000 seconds (or two and a half hours).</p>
             <p>We added a security measure (<a href="https://en.wikipedia.org/wiki/Dead_man%27s_switch" target="_blank">DMS - Dead Man's Switch</a>) to the regeneration process, which automatically wipes the tokens and their corresponding keys in the event of a regeneration failure.</p>
