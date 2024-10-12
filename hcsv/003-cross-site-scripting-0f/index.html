@@ -1,1 +1,86 @@
-!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCSV #003 - Cross-Site Scripting (XSS)</title>
+    <link rel="icon" type="image/png" href="https://about.hydraulisc.net/assets/img/HCSV.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="../hcsv-style.css">
+</head>
+<body>
+    <div class="author-and-title">
+        <div style="margin-bottom: 12px; font-size: 14px; line-height: 20px; font-weight: 400; color: #567; box-sizing: border-box;">Author</div>
+        <div style="display: flex; padding-bottom: 4px; align-items: flex-start; flex-wrap: nowrap; box-sizing: border-box;">
+            <div style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
+                <a href="https://hydraulisc.net/user/MupH0078JgXlk3TDZ5L6Wsaz2mf1" style="line-height: 1.25; font-size: 16px; display: flex; font-weight: 600; margin-right: 32px; margin-bottom: 16px; align-items: center; flex-wrap: nowrap; text-decoration: none; box-sizing: border-box;" tabindex="-1">
+                    <img src="https://avatars.githubusercontent.com/u/143962821?v=4" alt="SleepingAmi" style="margin-right: 14px; max-width: 40px; height: auto; display: block; border-radius: 50%; box-sizing: border-box;">SleepingAmi
+                </a>
+            </div>
+        </div>
+        <h1>HCSV #003 - Cross-Site Scripting (XSS)</h1>
+    </div>
+    <div class="paper-content">
+        <h3>This paper goes over the Hydraulisc-Centric Security Vulnerability No.3 (<a href="https://about.hydraulisc.net/hcsv/003-cross-site-scripting-0f">HCSV #003</a>)</h3>
+        <p><b>HCSV #003</b>, titled "<b>Cross-Site Scripting (XSS)</b>", was a critical issue involving a lack of server-side input sanitization, leading to potential Cross-Site Scripting (XSS) vulnerabilities. This affected all Hydraulisc-powered platforms that utilized user-generated content.</p>
+        <p>This was a <b style="text-decoration: underline; color: red;">MAJOR</b> Security Vulnerability, which has been patched.</p>
+        
+        <details>
+            <summary>Skip to</summary>
+            <ul class="no-list-style">
+                <li><a href="#in-depth">Explanation: What is HCSV #003</a></li>
+                <li><a href="#patches">HCSV #003 Solution</a></li>
+                <li><a href="#technical-spreadsheet">Technical Spreadsheet</a></li>
+            </ul>
+        </details>
+    
+        <h3 id="in-depth">HCSV #003 - An in-depth explanation</h3> 
+        <p>The missing backend HTML cleansing function allowed malicious actors to inject scripts via user input fields, leading to potential XSS attacks. Although frontend sanitization was in place, backend validation was not enforced, leaving a gap in the security measures in place.</p>
+        <p>This issue persisted until the vulnerability was identified and promptly addressed through proper input validation and sanitization mechanisms on the backend.</p>
+        <br>
+        <p>Attackers could potentially use this vulnerability to inject harmful JavaScript code into web pages viewed by other users, leading to unauthorized actions within the application.</p>
+        <p>The issue affected any Hydraulisc platform that relied on unvalidated user inputs, making it critical to implement the fix across all relevant platforms.</p>
+        <br>
+        <h3 id="patches">HCSV #003 - What has been done</h3>
+        <p>Please note, the team at Hydraulisc-Centric Security Vulnerability have agreed that this Security Vulnerability is no longer reproducible.</p>
+        <ul>
+            <li>Implemented server-side HTML sanitization using the linkify and DOMPurify libraries, and a custom detection and prevention algorithm.</li>
+            <p>The backend now checks all user inputs to remove any special characters which could possibly lead to the injection of malicious scripts, and replace them with their HTML Character Entity counterparts so that no malicious scripts can be injected.</p>
+            <li>Revised backend logic to perform checks on all data inputs received via API endpoints.</li>
+            <p>This security measure ensures that inputs bypassing the frontend still undergo proper sanitization.</p>
+        </ul>
+        <br>
+        <h3 id="technical-spreadsheet">Technical Spreadsheet</h3>
+        <p style="font-size: smaller;"><b>Guide</b>: Severity Numbers. Lower is better. Maximum value of 20, lowest of 1.</p>
+        <div>
+            <table id="size-guide" style="min-width: 360px;">
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">HCSV Code</td>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">HCSV #003</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Severity</td>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">17</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Date uncovered</td>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Jan. 1, 2024</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Date patched</td>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Jan. 20, 2024</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Paper release</td>
+                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Oct. 13, 2024</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
