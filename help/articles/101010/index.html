@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commit Type | Hydraulisc Updates and Security Help</title>
-    <meta property="og:title" content="Help Section | Hydraulisc Network">
+    <title>Commit Type | Hydraulisc Help Section</title>
+    <meta property="og:title" content="Help Section | The Hydraulisc Network">
     <meta property="og:description" content="The Hydraulisc Network">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/144374735">
     <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/144374735">
@@ -17,6 +17,52 @@
     <link rel="stylesheet" href="https://about.hydraulisc.net/styles.css">
 </head>
 <body class="darkTheme">
-    
+    <div class="header_container" tabindex="-1">
+        <div class="header_title" tabindex="-1">
+            <div class="header_logo" onclick="location.href='/help'" title="Navigate Home">
+                <img src="/assets/img/Foss-Hydraulisc.png" style="height: 44px; width: auto; cursor: pointer !important;" loading="lazy">
+            </div>
+        </div>
+    </div>
+    <div style="position: absolute; left: 0; margin-top: 1.44rem; width: 100%;">
+        <h1>Developer Commit Guidelines</h1>
+        <h2>Understanding what our commit prefixes mean</h2>
+        <div class="info">
+            <p>Developers, please follow these commit guidelines closely. We like polished code, but we love clean and precise commit names.</p>
+            <p>Users, you can tag along this article to understand how we label changes.</p>
+        </div>
+        <br>
+        <h3 id="descriptions">Commit Descriptions</h3>
+        <p style="margin-left: 10px;">This goes without saying; <b style="text-decoration: underline;">ALWAYS</b> add a changelog, or decent explanation of changes, in the commit description.</p>
+        <p style="margin-left: 10px;">Example of a <a href="https://github.com/Hydraulisc/foss-hydraulisc/commit/99fd57adf9bcc0c628c3034cbe7fece6767c3353" target="_blank" rel="noopener noreferrer">good</a> and <a href="https://github.com/Hydraulisc/foss-hydraulisc/commit/87400caf9a7ff12f4855e3b0a6ee63398c0fea58" target="_blank" rel="noopener noreferrer">bad</a> commit description. For fairness, here's a <a href="https://github.com/Hydraulisc/foss-hydraulisc/commit/8560d7eef6ee22ef72d443d768c7af2ca7dd3bbb" target="_blank" rel="noopener noreferrer">mediocre</a> commit description.</p>
+        <p style="margin-left: 10px;">For clarification: Just because a commit description isn't a changelog doesn't mean it'll get rejected in a PR. You can always add the changelog to the PR. Additionally, a "decent" explanation can often be "a whole lotta try catching" when adding a lot of try{something}catch{error} to, for example, an API route.</p>
+        <br>
+        <h3 id="commit-types">General Guidelines</h3>
+        <p style="margin-left: 10px;">These are used for standard commits</p>
+        <ul>
+            <li><b>FEAT</b> - Reserved exclusively for Team members; Feature added (i.e. "FEAT: Create Posts").</li>
+            <li><b>FIX</b> - Used for fixing a feature (i.e. "FIX: Create Posts error").</li>
+            <li><b>PATCH</b> - Used when fixing a feature, but the commit is generally smaller; Alternative for QUICK-FIX (i.e. "PATCH: Error on line 96").</li>
+            <li><b>CHORE</b> - Usually used for code cleanup, also used for features that should be implemented (i.e. "CHORE: Bump to v1.8").</li>
+        </ul>
+        <br>
+        <h3 id="alt-commits">Smaller Commit Types</h3>
+        <p style="margin-left: 10px;">These are usually only used by the Team for "on-the-fly" changes</p>
+        <ul>
+            <li><b>QUICK-FIX</b> - Alternative for PATCH; Used for a quick fix (usually a very small tweak in environmental variables or a single line change)</li>
+            <li><b>QUICK-PATCH</b> - Smaller QUICK-FIX; Rarely used. Useful for single variable updates.</li>
+        </ul>
+        <hr>
+        <div style="margin-top: 2.4rem; width: 100% !important;">
+            <div class="mobileresizemefooter">
+              <img src="/assets/icons/footer-badge.png" style="height: auto; width: fit-content; cursor: pointer !important;" loading="lazy">
+              <p>Documentation hosted on <a href="https://pages.github.com/">GitHub Pages</a>. <a href="https://github.com/Hydraulisc/hydraulisc.github.io/pulls">Contribute Directly on GitHub</a>. Made with Ɛ&gt; by The Hydraulisc Team, proof-read, maintained and fact checked by our incredible <a href="https://github.com/Hydraulisc/hydraulisc.github.io/graphs/contributors">Contributors</a>.</p>
+            </div>
+            <div style="text-align: center;">
+              <p>Site made with a modified version of the <a href="https://github.com/catppuccin/catppuccin" target="_blank">Catppuccin mocha theme</a>.</p>
+              <p>The <a href="https://github.com/catppuccin/" target="_blank">Catppuccin themes</a> and the <a href="https://github.com/catppuccin/catppuccin" target="_blank">Catppuccin mocha theme</a> are licenced under the <a href="https://github.com/catppuccin/catppuccin/blob/main/LICENSE" target="_blank">MIT License</a>, which allows for Public, Private and Commercial Use, Distribution, and Modification.</p>
+            </div>
+          </div>
+    </div>
 </body>
 </html>
