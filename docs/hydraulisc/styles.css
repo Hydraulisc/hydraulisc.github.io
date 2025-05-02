@@ -1,0 +1,137 @@
+:root {
+    scrollbar-width: none;
+}
+
+.darkTheme {
+    text-rendering: optimizeLegibility !important;
+    background: #11111b;
+    color: #cdd6f4;
+    font-family: "Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.lightTheme {
+    background: white;
+    color: black;
+    font-family: "Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+.mono {
+    background-color: black;
+    padding-left: 2px;
+    padding-right: 2px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.codeBlock {
+    background-color: black;
+    max-width: 500px;
+    max-height: 500px;
+    border-radius: 4px;
+    font-family: monospace;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: pre;
+}
+
+.faded {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.35rem;
+    color: #e0e0e0;
+    z-index: 1000;
+    cursor: pointer;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #1f1f1f;
+    padding: 1rem;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar nav ul li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .sidebar nav ul li a {
+    text-decoration: none;
+    color: #e0e0e0;
+    transition: color 0.2s;
+  }
+  
+  .sidebar nav ul li a:hover {
+    color: #90caf9;
+  }
+  
+  .content {
+    margin-left: 250px;
+    padding: 2rem 0 0 2.25rem;
+    width: 100%;
+  }
+
+  .info {
+    font-weight: 600;
+    max-width: 100%;
+    width: 90%;
+    border-left: 4px solid #fab387;
+    background: #11111b;
+    padding: 10px 9px 6px 10px;
+    border-radius: 6px;
+  }
+  
+  /* Mobile Styles */
+  @media screen and (max-width: 768px) {
+    .hamburger {
+      display: block;
+    }
+  
+    .sidebar {
+      transform: translateX(-100%);
+      width: 80%;
+      max-width: 300px;
+      background-color: #1f1f1f;
+      z-index: 999;
+    }
+  
+    .sidebar.active {
+      transform: translateX(0);
+    }
+  
+    .content {
+      margin-left: 0;
+      padding: 2rem 1rem;
+    }
+  }

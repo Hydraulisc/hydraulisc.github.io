@@ -1,11 +1,190 @@
+---
+layout: none
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hydraulisc Documention | Hydraulisc Help Suite</title>
+    <title>Documention | Hydraulisc Network</title>
+    <meta property="og:title" content="Documentation | Hydraulisc Network">
+    <meta property="og:description" content="The Hydraulisc Network">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/144374735">
+    <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/144374735">
+    <meta name="description" content="Hydraulisc Network Documentation">
+    <meta property="og:site_name" content="The Hydraulisc Network">
+    <meta property="og:url" content="https://about.hydraulisc.net/help">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Documentation | Hydraulisc Network">
+    <meta name="twitter:description" content="Hydraulisc Network Documentation.">
+    <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/144374735">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="darkTheme">
+    <div class="layout">
+        {% include hydraulisc_docs_nav.html %}
     
+        <main class="content">
+            <section id="introduction">
+                <h1>Introduction</h1>
+                <p>Welcome to The Hydraulisc Network's documentation.</p>
+                <p>This section covers Hydraulisc specifically.</p>
+                <div class="info">
+                    <p>Documentation, by default, supposes you have a basic understanding of JavaScript, SQLite, express-session management, and the NodeJS runtime, along with some self-hosting experience.</p>
+                </div>
+            </section>
+            <section id="getting-started">
+                <h1>Getting Started</h1>
+                <h2>Project Structure</h2>
+                <p>Assuming you used <span class="mono">git clone https://github.com/Hydraulisc/foss-hydraulisc.git</span>, your cloned project structure should be as follows:</p>
+                <div class="codeBlock">
+                    <pre>
+    foss-hydraulisc/
+    ├── middleware/
+    │   ├── auth.js - <span class="faded">Middleware User Authorization Helper Script</span>
+    │   └── forceTextDirection.js - <span class="faded">Helper script to force sanitize text inputs</span>
+    ├── public/
+    │   ├── css/ - <span class="faded">Contains various stylesheets</span>
+    │   ├── img/ - <span class="faded">Contains the default images</span>
+    │   └── js/ - <span class="faded">Contains the frontend JavaScript</span>
+    ├── routes/
+    │   ├── api.js - <span class="faded">API routes</span>
+    │   ├── auth.js - <span class="faded">Protected Authorization Routes</span>
+    │   └── legal.js - <span class="faded">Handles Terms, Privacy Policy and Community Guidelines</span>
+    ├── views/
+    │   ├── legal/ - <span class="faded">Contains the default Terms, Privacy Policy and Community Guidelines</span>
+    │   ├── pages/ - <span class="faded">Contains the various pages that the server will render</span>
+    │   └── partials/ - <span class="faded">Contains the partials (headers, footers, other reusables)</span>
+    ├── LICENSE
+    ├── README.md
+    ├── generate-invites.js - <span class="faded">Generates invites if the instance is private</span>
+    ├── global-variables.json - <span class="faded">Default Global Variables file, containing various configuration parameters</span>
+    ├── index.js - <span class="faded">Main Server file</span>
+    ├── migrate-database-v1.js - <span class="faded">Legacy Database Migration Script</span>
+    ├── migrate-database-v3.js - <span class="faded">Legacy Database Migration Script</span>
+    ├── package.json - <span class="faded">Dependencies</span>
+    └── package-lock.json - <span class="faded">Dependencies</span>
+                    </pre>
+                </div>
+                <p class="faded">File Structure Subject to Change</p>
+                <h2>Basic Configuration</h2>
+                <p>Before you can start the local or public server, <b>you must</b> configure some global variables.</p>
+                <p>These are stored in the <span class="mono">global-variables.json</span> file, structured as follows:</p>
+                <div class="codeBlock">
+                    <pre>
+    {
+        "hostPort": 8800,
+        "isPublic": false,
+        "inviteMode": true,
+        "sessionKey": "test_session_key",
+        "protocol": "https",
+        "siteDomain": "hydraulisc.net"
+    }
+                </pre>
+                </div>
+                <p>For now, we'll be covering configuration for a basic local server, changing <span class="mono">"hostPort"</span> and <span class="mono">"sessionKey"</span>.</p>
+                <div class="info">
+                    <p><span class="mono">"hostPort"</span> will be the port the server is later configured to serve the site on. Make sure this port is available!</p>
+                    <p><span class="mono">"sessionKey"</span> is your <span class="mono">express-session</span> cookie encryption key!</p>
+                    <p><b>Important:</b> Never share or commit your <span class="mono">"sessionKey"</span>. This key is used to encrypt user sessions and should be treated like a password. If exposed, others could forge session cookies and impersonate users, including admins!</p>
+                    <p>We recommend using <span class="mono">pwgen</span> to create this key (<span class="mono">apt install pwgen</span>). You can then create an encryption key <span class="mono">pwgen 20 1</span> for a random 20 character key.</p>
+                </div>
+                <p>For the sake of the guide's simplicity, we're changing <span class="mono">"sessionKey"</span> to <span class="mono">wumieth4ohVeopasee0z</span>, and <span class="mono">"hostPort"</span> to <span class="mono">5500</span>.</p>
+                <p>Your <span class="mono">global-variables.json</span> should now look like this:</p>
+                <div class="codeBlock">
+                <pre>
+    {
+        "hostPort": 5500,
+        "isPublic": false,
+        "inviteMode": true,
+        "sessionKey": "wumieth4ohVeopasee0z",
+        "protocol": "https",
+        "siteDomain": "hydraulisc.net"
+    }
+                </pre>
+                </div>
+                <h2>Starting the local server</h2>
+                <p>First, install the dependencies, considering you only just cloned the repo.</p>
+                <p><span class="mono">$ npm i</span> <span class="faded">- you must be inside the <span class="mono">foss-hydraulisc</span> root folder to install dependencies.</span></p>
+                <p>There are two ways to start the server: <b>Dev Mode</b>, intended for on-the-fly changing, and <b>Live Mode</b>, intended for configured servers.</p>
+                <ul>
+                    <li>Start the local server in Dev Mode:</li>
+                    <p><span class="mono">$ npm run test</span></p>
+                    <li>Start the local server in Live Mode:</li>
+                    <p><span class="mono">$ npm run start</span></p>
+                </ul>
+                <p class="faded">If you're following along these docs in a step-by-step manner, we recommend starting the server in <b>Dev Mode</b>.</p>
+                <div class="info">
+                    <p><i>Dev Mode uses <span class="mono">nodemon</span> to auto-restart the server when certain files change during development. Ensure it's installed globally (<span class="mono">$ npm i -g nodemon</span>) if you encounter issues.</i></p>
+                </div>
+                <h2>Admin Setup</h2>
+                <div class="info">
+                    <p>Start the server (<span class="mono">$ npm run test</span>) to initialize the database, and ensure you can access the local server at <span class="mono">http://192.167.1.1:5500/</span>.</p>
+                    <p>Stop the server and run <span class="mono">$ node generate-invites.js</span>.</p>
+                    <p>Restart the server and use an invite code to register the first (admin) account (preferably you).</p>
+                </div>
+                <br>
+                <p>If you're following along in this guide, you should now find the local server available at <span class="mono">http://IP:5500/</span>. Once again, for the sake of simplicity, we're supposing IP is static <span class="mono">192.167.1.1</span>, so your local domain should look like <span class="mono">http://192.167.1.1:5500/</span>.</p>
+                <p>Congratulations, you just set up your first private and invite-only local Hydraulisc instance!</p>
+            </section>
+            <section id="configuration">
+                <h1>Configuring your Hydraulisc Instance</h1>
+                <h2>Understanding <span class="mono">global-variables.json</span> variables</h2>
+                <p>This section provides an in-depth explanation of each configuration value in the <span class="mono">global-variables.json</span> file. Understanding these will help you properly secure and personalize your Hydraulisc instance.</p>
+                <br>
+                <p><b>hostPort</b></p>
+                <p><span class="mono">hostPort</span> defines the port your Hydraulisc instance will run on. For local development, any unoccupied port (e.g., <span class="mono">5500</span>) will work. For production environments, ensure this port is allowed through your firewall and reverse proxy (if used).</p>
+                <p><b>sessionKey</b></p>
+                <div class="info">
+                    <p><span class="mono">sessionKey</span> is used by <span class="mono">express-session</span> to sign and encrypt session cookies. It should be a random string and treated like a password.</p>
+                    <p><b>Never share, commit, or expose this key</b>. If an attacker obtains it, they can forge user sessions—including admin accounts—and hijack your instance.</p>
+                    <p>We recommend using <span class="mono">pwgen 20 1</span> to generate a strong key.</p>
+                </div>
+                <p><b>protocol</b></p>
+                <p><span class="mono">protocol</span> determines both how URLs are generated (e.g., in invites and shared links) and whether session cookies are marked as <span class="mono">secure</span>.</p>
+                <ul>
+                    <li><span class="mono">"https"</span> enables <span class="mono">secure: true</span> for session cookies. This is required for deployment with TLS/SSL.</li>
+                    <li><span class="mono">"http"</span> disables the secure flag—use this for local development.</li>
+                </ul>
+                <div class="info">
+                    <p><b>Cloudflare SSL & "Always Use HTTPS":</b> If Cloudflare handles SSL (i.e., HTTPS terminates at the CDN and your server only receives HTTP), leave the <span class="mono">protocol</span> as <span class="mono">"http"</span>. This ensures <span class="mono">express-session</span> sends cookies over plain HTTP internally, avoiding <span class="mono">secure: true</span> flags that would prevent session cookies from reaching users.</p>
+                    <p>Even if you only use Cloudflare for SSL certificates, because the certificate isn't served locally, you must also serve cookies as <b>http</b>.</p>
+                </div>
+                <p><b>siteDomain</b></p>
+                <p><span class="mono">siteDomain</span> should be set to your instance's domain name (e.g., <span class="mono">hydraulisc.example</span>).</p>
+                <p>This value is used when generating invite links and shared content URLs in the admin dashboard or frontend. Incorrect values may lead to broken links or users being redirected to a non-existent domain.</p>
+                <p><b>isPublic & inviteMode</b></p>
+                <p>These two keys control how users can register on your instance:</p>
+                <ul>
+                    <li><span class="mono">isPublic: false</span>, <span class="mono">inviteMode: true</span> → <b>Invite-only mode</b>: Users must be invited to register.</li>
+                    <li><span class="mono">isPublic: false</span>, <span class="mono">inviteMode: false</span> → <b>Private instance</b>: No one, not even you (the first user), can register, unless you created an account before triggering this mode. Useful as an "under attack mode".</li>
+                    <li><span class="mono">isPublic: true</span>, <span class="mono">inviteMode: "any"</span> → <b>Public mode</b>: Anyone can register an account.</li>
+                </ul>
+                <p>Changing these settings after setup can impact how your users interact with the site and whether registration remains open.</p>
+            </section>
+            <section id="api">
+                <h1>API Spec</h1>
+                <p>API Documentation is <a href="api">here</a>.</p>
+            </section>
+            <section id="faq">
+                <h1>Frequently Asked Questions</h1>
+                <p>1. Why can't I register?</p>
+                <p>Your instance may be set to invite-only or private mode. Ask the admin for an invite, or check your <span class="mono">global-variables.json</span>.</p>
+                <p>2. Where are uploaded images stored?</p>
+                <p>By default, unless modified, uploads are stored in <span class="mono">/public/uploads</span>.</p>
+            </section>
+        </main>
+    </div>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+
+        hamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

@@ -232,8 +232,8 @@ h1, h2, h3, h4 {
 }
 
 .header_nav .menu-item.has-collapsible span::after {
-    font-family: "Material Icons";
-    content: "\2B9A";
+    font-family: inherit;
+    content: ">";
     font-size: 1.5rem;
     font-weight: 400;
     line-height: inherit;
