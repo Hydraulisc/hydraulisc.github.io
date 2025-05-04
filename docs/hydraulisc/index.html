@@ -6,7 +6,7 @@ layout: none
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documention | Hydraulisc Network</title>
+    <title>Hydraulisc Documention | Hydraulisc</title>
     <meta property="og:title" content="Documentation | Hydraulisc Network">
     <meta property="og:description" content="The Hydraulisc Network">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/144374735">
@@ -135,15 +135,15 @@ layout: none
                 <h2>Understanding <span class="mono">global-variables.json</span> variables</h2>
                 <p>This section provides an in-depth explanation of each configuration value in the <span class="mono">global-variables.json</span> file. Understanding these will help you properly secure and personalize your Hydraulisc instance.</p>
                 <br>
-                <p><b>hostPort</b></p>
+                <p><b>hostPort</b> - <span class="mono">Type: Integer</span></p>
                 <p><span class="mono">hostPort</span> defines the port your Hydraulisc instance will run on. For local development, any unoccupied port (e.g., <span class="mono">5500</span>) will work. For production environments, ensure this port is allowed through your firewall and reverse proxy (if used).</p>
-                <p><b>sessionKey</b></p>
+                <p><b>sessionKey</b> - <span class="mono">Type: String</span></p>
                 <div class="info">
                     <p><span class="mono">sessionKey</span> is used by <span class="mono">express-session</span> to sign and encrypt session cookies. It should be a random string and treated like a password.</p>
                     <p><b>Never share, commit, or expose this key</b>. If an attacker obtains it, they can forge user sessions—including admin accounts—and hijack your instance.</p>
                     <p>We recommend using <span class="mono">pwgen 20 1</span> to generate a strong key.</p>
                 </div>
-                <p><b>protocol</b></p>
+                <p><b>protocol</b> - <span class="mono">Type: Strict-String</span></p>
                 <p><span class="mono">protocol</span> determines both how URLs are generated (e.g., in invites and shared links) and whether session cookies are marked as <span class="mono">secure</span>.</p>
                 <ul>
                     <li><span class="mono">"https"</span> enables <span class="mono">secure: true</span> for session cookies. This is required for deployment with TLS/SSL.</li>
@@ -152,22 +152,26 @@ layout: none
                 <div class="info">
                     <p><b>Cloudflare SSL & "Always Use HTTPS":</b> If Cloudflare handles SSL (i.e., HTTPS terminates at the CDN and your server only receives HTTP), leave the <span class="mono">protocol</span> as <span class="mono">"http"</span>. This ensures <span class="mono">express-session</span> sends cookies over plain HTTP internally, avoiding <span class="mono">secure: true</span> flags that would prevent session cookies from reaching users.</p>
                     <p>Even if you only use Cloudflare for SSL certificates, because the certificate isn't served locally, you must also serve cookies as <b>http</b>.</p>
+                    <p>For production without Cloudflare, <b>always</b> set <span class="mono">"protocol": "https"</span> and configure TLS/SSL on your server, unless it causes issues.</p>
                 </div>
-                <p><b>siteDomain</b></p>
+                <p><b>siteDomain</b> - <span class="mono">Type: String</span></p>
                 <p><span class="mono">siteDomain</span> should be set to your instance's domain name (e.g., <span class="mono">hydraulisc.example</span>).</p>
                 <p>This value is used when generating invite links and shared content URLs in the admin dashboard or frontend. Incorrect values may lead to broken links or users being redirected to a non-existent domain.</p>
-                <p><b>isPublic & inviteMode</b></p>
+                <p><b>isPublic (<span class="mono">Type: Boolean</span>) & inviteMode (<span class="mono">Type: Boolean</span>)</b></p>
                 <p>These two keys control how users can register on your instance:</p>
                 <ul>
-                    <li><span class="mono">isPublic: false</span>, <span class="mono">inviteMode: true</span> → <b>Invite-only mode</b>: Users must be invited to register.</li>
-                    <li><span class="mono">isPublic: false</span>, <span class="mono">inviteMode: false</span> → <b>Private instance</b>: No one, not even you (the first user), can register, unless you created an account before triggering this mode. Useful as an "under attack mode".</li>
-                    <li><span class="mono">isPublic: true</span>, <span class="mono">inviteMode: "any"</span> → <b>Public mode</b>: Anyone can register an account.</li>
+                    <li><span class="mono">"isPublic": false</span>, <span class="mono">"inviteMode": true</span> → <b>Invite-only mode</b>: Users must be invited to register.</li>
+                    <li><span class="mono">"isPublic": false</span>, <span class="mono">"inviteMode": false</span> → <b>Private instance</b>: No one, not even you (the first user), can register, unless you created an account before triggering this mode. Useful as an "under attack mode".</li>
+                    <li><span class="mono">"isPublic": true</span>, <span class="mono">"inviteMode": "any"</span> → <b>Public mode</b>: Anyone can register an account. Please note that "any" is not a real or acceptable value, and that <span class="mono">"inviteMode"</span> is overriden by the <span class="mono">"isPublic": true</span> value.</li>
                 </ul>
                 <p>Changing these settings after setup can impact how your users interact with the site and whether registration remains open.</p>
             </section>
             <section id="api">
                 <h1>API Spec</h1>
-                <p>API Documentation is <a href="api">here</a>.</p>
+                <div class="info">
+                    <p>For full endpoint details, see <a href="api" class="mono">/docs/api</a>.</p>
+                </div>
+                <p class="faded"><i>Covers auth, user, and admin endpoints.</i></p>
             </section>
             <section id="faq">
                 <h1>Frequently Asked Questions</h1>
