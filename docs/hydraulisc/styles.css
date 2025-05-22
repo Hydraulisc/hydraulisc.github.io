@@ -111,6 +111,19 @@ section {
     padding: 10px 9px 6px 10px;
     border-radius: 6px;
   }
+
+  td {
+    padding: 10px;
+    font-size: 15px;
+    border-top: 1px solid #cdd6f4;
+    border-left: 1px solid #cdd6f4;
+    word-break: break-word;
+  }
+
+  .http-get {
+    color: #77dd77;
+    font-weight: bold;
+  }
   
   /* Mobile Styles */
   @media screen and (max-width: 768px) {
