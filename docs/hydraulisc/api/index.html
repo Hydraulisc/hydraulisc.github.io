@@ -17,56 +17,193 @@ layout: none
                 <h1>API Documentation is under construction!</h1>
                 <hr>
             </section>
+            <section id="global-ratelimits">
+                <h1>Global API Ratelimits</h1>
+                <div class="info">
+                    <p><b>Cloudflare</b> has a strict 250 requests per-IP per-endpoint per 10-minute window <b>on all public API endpoints</b>. Exceeding this will result in a 24 hour Cloudflare IP ban on that endpoint.</p>
+                </div>
+                <p>Our soft-limit for API requests is <b>200 requests per-IP per-endpoint per 10-minute window</b>, as a mitigation to Cloudflare bans.</p>
+            </section>
             <section id="fetching-user-data">
                 <h1>Fetching user data</h1>
-                <h2>Endpoint</h2>
-                <span class="mono"><span class="http-get">GET</span> /api/:userId/posts/:limit?</span>
-                <h2>Description</h2>
-                <p>Retrieves a list of posts for a specific user by their unique ID. The number of posts returned can be optionally limited.</p>
-                <h2>Authentication</h2>
-                <p>This is a public endpoint - no authentication required.</p>
-                <h2>URL Parameters</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Parameter</th>
-                            <th>Type</th>
-                            <th>Required</th>
-                            <th>Description</th>
-                            <th>Constraints</th>
-                            <th>Default Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>userId</td>
-                            <td>integer</td>
-                            <td>Yes</td>
-                            <td>The unique ID of the target user</td>
-                            <td>Must be valid user ID</td>
-                            <td>N/A (null)</td>
-                        </tr>
-                        <tr>
-                            <td>limit</td>
-                            <td>integer</td>
-                            <td>No</td>
-                            <td>Maximum number of posts to return</td>
-                            <td>1-50</td>
-                            <td>10</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h2>Request Example</h2>
-                <div class="codeBlock">
-                    <pre>
+                <section id="user-info">
+                    <span class="mono"><span class="http-get">GET</span> /api/:userId</span>
+                    <h2>Description</h2>
+                    <p>Retrieves a users information based on their unique ID.</p>
+                    <p>This endpoint returns data in <span class="mono">application/json</span> format.</p>
+                    <h2>Authentication</h2>
+                    <p>This is a public endpoint - no authentication required.</p>
+                    <h2>URL Parameters</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                                <th>Constraints</th>
+                                <th>Default Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>userId</td>
+                                <td>integer</td>
+                                <td>Yes</td>
+                                <td>The unique ID of the target user</td>
+                                <td>Must be valid userId</td>
+                                <td>N/A (null)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Request Example</h2>
+                    <div class="codeBlock">
+                        <pre>
+    GET /api/123 HTTP/1.1
+    Host: yourdomain.com
+                        </pre>
+                    </div>
+                    <h2>Response Examples</h2>
+                    <h3>Success (HTTP 200)</h3>
+                    <div class="codeBlock">
+                        <pre>
+    {
+        "user": {
+            "id": 123,
+            "username": "exampleUser",
+            "pfp": "/avatars/profile123.jpg",
+            "discriminator": "0001",
+            "biography": "This user has not written their Bio"
+        }
+    }
+                        </pre>
+                    </div>
+                    <h3>Error Responses</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status Code</th>
+                                <th>Error</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>400</td>
+                                <td>Invalid userId</td>
+                                <td>When userId is not a valid number</td>
+                            </tr>
+                            <tr>
+                                <td>404</td>
+                                <td>User not found</td>
+                                <td>When no user exists with the specified ID</td>
+                            </tr>
+                            <tr>
+                                <td>500</td>
+                                <td>Database error</td>
+                                <td>When there's a server-side database issue</td>
+                            </tr>
+                            <tr>
+                                <td>1015</td>
+                                <td>Cloudflare ratelimit ban</td>
+                                <td>Exceeded 250 requests per 10 minute window</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Ratelimiting and Caching</h2>
+                    <p><a href="#global-ratelimits">Global Ratelimits</a> apply to all public API Endpoints.</p>
+                    <p>Responses include caching headers:</p>
+                    <ul>
+                        <li><span class="mono">Cache-Control: public, max-age=300</span> (5 minutes)</li>
+                    </ul>
+                    <h2>Use Cases</h2>
+                    <ol>
+                        <li>Showing preview content when hovering over user mentions</li>
+                        <li>Syndicating user content to external sites</li>
+                    </ol>
+                    <h2>Client-Side Implementation Example</h2>
+                    <p>In JavaScript:</p>
+                    <div class="codeBlock">
+                        <pre>
+    async function getUserInfo(userId) {
+        try {
+            const response = await fetch(`/api/${userId}`, { headers: { 'Accept': 'application/json' } });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to fetch user info:', error);
+            return null;
+        }
+    }
+
+    // Usage:
+    getUserInfo(123).then(data => {
+        console.log('User info:', data);
+    });
+                        </pre>
+                    </div>
+                    <p>Using cURL:</p>
+                    <div class="codeBlock">
+                        <pre>
+    curl https://yourdomain.com/api/1
+                        </pre>
+                    </div>
+                    <h2>Notes</h2>
+                    <ul>
+                        <li>The response format only includes user metadata</li>
+                    </ul>
+                </section>
+                <section id="user-posts">
+                    <span class="mono"><span class="http-get">GET</span> /api/:userId/posts/:limit?</span>
+                    <h2>Description</h2>
+                    <p>Retrieves a list of posts for a specific user by their unique ID. The number of posts returned can be optionally limited.</p>
+                    <p>This endpoint returns data in <span class="mono">application/json</span> format.</p>
+                    <h2>Authentication</h2>
+                    <p>This is a public endpoint - no authentication required.</p>
+                    <h2>URL Parameters</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                                <th>Constraints</th>
+                                <th>Default Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>userId</td>
+                                <td>integer</td>
+                                <td>Yes</td>
+                                <td>The unique ID of the target user</td>
+                                <td>Must be valid userId</td>
+                                <td>N/A (null)</td>
+                            </tr>
+                            <tr>
+                                <td>limit</td>
+                                <td>integer</td>
+                                <td>No</td>
+                                <td>Maximum number of posts to return</td>
+                                <td>1-50</td>
+                                <td>10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Request Example</h2>
+                    <div class="codeBlock">
+                        <pre>
     GET /api/123/posts/5 HTTP/1.1
     Host: yourdomain.com
-                    </pre>
-                </div>
-                <h2>Response Examples</h2>
-                <h3>Success (HTTP 200)</h3>
-                <div class="codeBlock">
-                    <pre>
+                        </pre>
+                    </div>
+                    <h2>Response Examples</h2>
+                    <h3>Success (HTTP 200)</h3>
+                    <div class="codeBlock">
+                        <pre>
     {
         "user": {
             "id": 123,
@@ -86,57 +223,60 @@ layout: none
             ...
         ]
     }
-                    </pre>
-                </div>
-                <h3>Error Responses</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Status Code</th>
-                            <th>Error</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>400</td>
-                            <td>Invalid user ID</td>
-                            <td>When userId is not a valid number</td>
-                        </tr>
-                        <tr>
-                            <td>404</td>
-                            <td>User not found</td>
-                            <td>When no user exists with the specified ID</td>
-                        </tr>
-                        <tr>
-                            <td>500</td>
-                            <td>Database error</td>
-                            <td>When there's a server-side database issue</td>
-                        </tr>
-                        <tr>
-                            <td>1015</td>
-                            <td>Cloudflare ratelimit ban</td>
-                            <td>Exceeded 250 requests per 10 minute window</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h2>Ratelimiting and Caching</h2>
-                <div class="info">
-                    <p><b>Cloudflare</b> has a strict 250 requests per-IP per-endpoint per 10-minute window. Exceeding this will result in a 24 hour Cloudflare IP ban on that endpoint.</p>
-                </div>
-                <p>Additionally, responses include caching headers:</p>
-                <ul>
-                    <li><span class="mono">Cache-Control: public, max-age=300</span> (5 minutes)</li>
-                </ul>
-                <h2>Use Cases</h2>
-                <ol>
-                    <li>Showing preview content when hovering over user mentions</li>
-                    <li>Syndicating user content to external sites</li>
-                </ol>
-                <h2>Client-Side Implementation Example</h2>
-                <p>In JavaScript:</p>
-                <div class="codeBlock">
-                    <pre>
+                        </pre>
+                    </div>
+                    <h3>Error Responses</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status Code</th>
+                                <th>Error</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>204</td>
+                                <td>No Content</td>
+                                <td>When userId has no posts</td>
+                            </tr>
+                            <tr>
+                                <td>400</td>
+                                <td>Invalid userId</td>
+                                <td>When userId is not a valid number</td>
+                            </tr>
+                            <tr>
+                                <td>404</td>
+                                <td>User not found</td>
+                                <td>When no user exists with the specified ID</td>
+                            </tr>
+                            <tr>
+                                <td>500</td>
+                                <td>Database error</td>
+                                <td>When there's a server-side database issue</td>
+                            </tr>
+                            <tr>
+                                <td>1015</td>
+                                <td>Cloudflare ratelimit ban</td>
+                                <td>Exceeded 250 requests per 10 minute window</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Ratelimiting and Caching</h2>
+                    <p><a href="#global-ratelimits">Global Ratelimits</a> apply to all public API Endpoints.</p>
+                    <p>Responses include caching headers:</p>
+                    <ul>
+                        <li><span class="mono">Cache-Control: public, max-age=300</span> (5 minutes)</li>
+                    </ul>
+                    <h2>Use Cases</h2>
+                    <ol>
+                        <li>Showing preview content when hovering over user mentions</li>
+                        <li>Syndicating user content to external sites</li>
+                    </ol>
+                    <h2>Client-Side Implementation Example</h2>
+                    <p>In JavaScript:</p>
+                    <div class="codeBlock">
+                        <pre>
     async function getUserPosts(userId, limit = 10) {
         try {
             const response = await fetch(`/api/${userId}/posts/${limit}`, { headers: { 'Accept': 'application/json' } });
@@ -154,22 +294,23 @@ layout: none
     getUserPosts(123, 5).then(data => {
         console.log('User posts:', data);
     });
-                    </pre>
-                </div>
-                <p>Using cURL:</p>
-                <div class="codeBlock">
-                    <pre>
+                        </pre>
+                    </div>
+                    <p>Using cURL:</p>
+                    <div class="codeBlock">
+                        <pre>
     curl https://yourdomain.com/api/123/posts/5
-                    </pre>
-                </div>
-                <h2>Notes</h2>
-                <ol>
-                    <li>The response format includes both user metadata and an array of posts in reverse chronological order</li>
-                    <li>Posts are always returned in reverse chronological order (newest first)</li>
-                    <li>File <span class="mono">url</span> fields are relative, meaning you have to specify the root domain</li>
-                    <li>Timestamps are ISO 8601 strings in UTC</li>
-                    <li>If the optional <span class="mono">limit</span> parameter is not specified, up to 10 posts are returned by default</li>
-                </ol>
+                        </pre>
+                    </div>
+                    <h2>Notes</h2>
+                    <ol>
+                        <li>The response format includes both user metadata and an array of posts in reverse chronological order</li>
+                        <li>Posts are always returned in reverse chronological order (newest first)</li>
+                        <li>File <span class="mono">url</span> fields are relative, meaning you have to specify the root domain</li>
+                        <li>Timestamps are ISO 8601 strings in UTC</li>
+                        <li>If the optional <span class="mono">limit</span> parameter is not specified, up to 10 posts are returned by default</li>
+                    </ol>
+                </section>
             </section>
         </main>
     </div>

@@ -29,24 +29,44 @@ layout: none
     </div>
     <div style="position: absolute; left: 0; margin-top: 1.44rem; width: 100%;">
         <h1>Privacy</h1>
-        <h2>What The Hydraulisc Network does to help protect your privacy</h2>
+        <h2>How The Hydraulisc Network Protects Your Privacy</h2>
         <div class="info">
-            <p>Privacy is a right.</p>
+            <p>As per always, this article covers <a href="/platforms">official instances</a> <span style="text-decoration: underline; font-weight: 700;">only</span>! Self-hosted versions may differ depending on the operator.</p>
         </div>
         <br>
-        <h3>WIP</h3>
-        <p>As per always, this article covers official instances <span style="text-decoration: underline; font-weight: 700;">only</span>!</p>
+        <h3>Privacy is a Right.</h3>
+        <p>Hydraulisc is built with the principle that privacy is not a feature — it's a default. We collect only the minimum data required to operate each service, and provide optional layers of control and anonymity.</p>
+        <h3>Emails are optional.</h3>
+        <p>We do not require an email address to use any Hydraulisc platform. Email is treated as an optional second-factor method for account recovery or multi-factor authentication (MFA), not a point of identification.</p>
+        <h3>Self-Hostability</h3>
+        <p>Don't want to trust us? <b>Don't</b>. All <a href="/platforms">platforms</a> under The Hydraulisc Network are Open Source and self-hostable. Self-hosted instances can:</p>
+        <ul>
+            <li>Implement custom <a href="/docs/hydraulisc">OAuth2</a> providers</li>
+            <li>Operate entirely offline or in isolated networks</li>
+            <li>Interact with official or third party OAuth2 Hydraulisc instances to log users in on our other platforms (except <span title="Note: Blogger, while branded as a “By Hydraulisc” product, is a lightweight Node.js blogging tool that uses Google Firebase for authentication. It is independently licensed under the MIT License and does not share the same infrastructure or privacy model as official Hydraulisc instances.">Blogger<sup style="cursor: pointer; color: #89b4fa;">*</sup></span> , which relies on Firebase Auth).</li>
+        </ul>
+        <p>What do you lose by not using the official instance? Minimal convenience features such as integrated OAuth2 between sibling services.</p>
+        <h3>API-Level Protections</h3>
+        <p>Our public APIs include built-in privacy controls:</p>
+        <ul>
+            <li>Privacy settings prevent users from being listed in public directories or exposed through search endpoints — enabled by default</li>
+            <li>API responses are sanitized to minimize metadata exposure</li>
+            <li>Rate-limiting and strict permission scopes reduce abuse vectors</li>
+        </ul>
+        <h3>Algorithm Transparency</h3>
+        <p>Recommendation systems use a lightweight ELO-based ranking with minor augmentations for similarity scoring. While imperfect, the logic is public and documented. All data used by these algorithms is stored locally per instance, never shared across networks.</p>
+        <h3>Minimal Tracking</h3>
+        <p>Hydraulisc platforms do not include analytics scripts, pixel trackers, or third-party beacons by default. We do not fingerprint users or run background telemetry. Your activity stays on the server you chose to use.</p>
+        <p><b>However</b>, there are valid concerns regarding Google scraping the domain (<a href="https://hydraulisc.net" target="_blank" rel="noopener noreferrer">hydraulisc.net</a>) and Cloudflare acting as both a nameserver and CDN. These services may expose limited metadata to their systems (e.g. through anonymous analytics). If this concerns you, we encourage self-hosting to maintain full control.</p>
+        <h3>Your Controls</h3>
+        <ul>
+            <li><strong>Privacy Settings</strong>: Profiles are not indexed by default — visibility controls are opt-in, and API/profile indexing is disabled unless explicitly enabled</li>
+            <li><strong>Delete Account</strong>: Available in all official platforms</li>
+            <li><strong>Data Portability</strong>: You can export your own data directly from your account settings</li>
+            <li><strong>GDPR Compliance</strong>: You can request your data at any time on official instances</li>
+        </ul>
         <hr>
-        <div style="margin-top: 2.4rem; width: 100% !important;">
-            <div class="mobileresizemefooter">
-              <img src="/assets/icons/footer-badge.png" style="height: auto; width: fit-content; cursor: pointer !important;" loading="lazy">
-              <p>Documentation hosted on <a href="https://pages.github.com/">GitHub Pages</a>. <a href="https://github.com/Hydraulisc/hydraulisc.github.io/pulls">Contribute Directly on GitHub</a>. Made with Ɛ&gt; by The Hydraulisc Team, proof-read, maintained and fact checked by our incredible <a href="https://github.com/Hydraulisc/hydraulisc.github.io/graphs/contributors">Contributors</a>.</p>
-            </div>
-            <div style="text-align: center;">
-              <p>Site made with a modified version of the <a href="https://github.com/catppuccin/catppuccin" target="_blank">Catppuccin mocha theme</a>.</p>
-              <p>The <a href="https://github.com/catppuccin/" target="_blank">Catppuccin themes</a> and the <a href="https://github.com/catppuccin/catppuccin" target="_blank">Catppuccin mocha theme</a> are licenced under the <a href="https://github.com/catppuccin/catppuccin/blob/main/LICENSE" target="_blank">MIT License</a>, which allows for Public, Private and Commercial Use, Distribution, and Modification.</p>
-            </div>
-          </div>
+        {% include footer.html %}
     </div>
 </body>
 </html>
