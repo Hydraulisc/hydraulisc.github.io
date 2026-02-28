@@ -326,6 +326,8 @@ h1, h2, h3, h4 {
 .boody {
     padding: 2rem 32px;
     background: linear-gradient(to bottom right, #202023, #04050a);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
     display: flex;
     flex-direction: column;
     margin: 3.6rem auto;
@@ -347,10 +349,15 @@ h1, h2, h3, h4 {
     text-align: center;
 }
 
-@keyframes drip {
-    to {
-      top: 45px;
-      opacity: 0;
+@keyframes gradientShift {
+    0% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
 

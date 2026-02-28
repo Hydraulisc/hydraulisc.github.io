@@ -111,7 +111,7 @@ layout: none
                         </tbody>
                     </table>
                     <h2>Ratelimiting and Caching</h2>
-                    <p><a href="#global-ratelimits">Global Ratelimits</a> apply to all public API Endpoints.</p>
+                    <p><a href="#global-ratelimits" style="color: aqua;">Global Ratelimits</a> apply to all public API Endpoints.</p>
                     <p>Responses include caching headers:</p>
                     <ul>
                         <li><span class="mono">Cache-Control: public, max-age=300</span> (5 minutes)</li>
@@ -263,7 +263,7 @@ layout: none
                         </tbody>
                     </table>
                     <h2>Ratelimiting and Caching</h2>
-                    <p><a href="#global-ratelimits">Global Ratelimits</a> apply to all public API Endpoints.</p>
+                    <p><a href="#global-ratelimits" style="color: aqua;">Global Ratelimits</a> apply to all public API Endpoints.</p>
                     <p>Responses include caching headers:</p>
                     <ul>
                         <li><span class="mono">Cache-Control: public, max-age=300</span> (5 minutes)</li>
@@ -311,6 +311,12 @@ layout: none
                         <li>If the optional <span class="mono">limit</span> parameter is not specified, up to 10 posts are returned by default</li>
                     </ol>
                 </section>
+            </section>
+            <section id="oauth-spec">
+                <h1>Using OAuth</h1>
+                <span class="mono"><span class="http-post">POST</span> /oauth/authorize?client_id=:clientId&redirect_uri=:redirectUri&response_type:tokenType</span>
+                <p>OAuth is complicated. I'll get back to you once I've figured it out.</p>
+                <img src="../../../assets/img/proto_schema.jpeg" alt="proto_schema" style="max-width: 50svw;">
             </section>
         </main>
     </div>

@@ -125,6 +125,11 @@ section {
     font-weight: bold;
   }
   
+  .http-post {
+    color: #fab387;
+    font-weight: bold;
+  }
+  
   /* Mobile Styles */
   @media screen and (max-width: 768px) {
     .hamburger {
