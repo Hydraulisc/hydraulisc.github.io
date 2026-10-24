@@ -8,11 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2" as="font" type="font/woff2" crossorigin="">
     <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="stylesheet" href="../hcsv-style.css">
+    <link rel="stylesheet" href="/hcsv/hcsv-style.css">
 </head>
 <body>
     <div class="author-and-title">
-        <div style="margin-bottom: 12px; font-size: 14px; line-height: 20px; font-weight: 400; color: #567; box-sizing: border-box;">Authors</div>
+        <div style="margin-bottom: 12px; font-size: 14px; line-height: 20px; font-weight: 400; color: var(--accent); box-sizing: border-box;">Authors</div>
         <div style="display: flex; padding-bottom: 4px; align-items: flex-start; flex-wrap: nowrap; box-sizing: border-box;">
             <div style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
                 <a href="https://hydraulisc.net/user/MupH0078JgXlk3TDZ5L6Wsaz2mf1" target="_blank" style="line-height: 1.25; font-size: 16px; display: flex; font-weight: 600; margin-right: 32px; margin-bottom: 16px; align-items: center; flex-wrap: nowrap; text-decoration: none; box-sizing: border-box;" tabindex="-1">
@@ -32,7 +32,7 @@
     <div class="paper-content">
         <h3>This paper goes over the Hydraulisc-Centric Security Vulnerability No.2 (<a href="https://about.hydraulisc.net/hcsv/002-illegal-account-re-activation">HCSV #002</a>)</h3>
         <p><b>HCSV #002</b>, titled "<b>Illegal Account Re-Activation</b>", was a minor yet impactful database error that affected the Hydraulisc Authorisation Authority, the User Manager which handles Users, their related User Objects and any other information regarding the specific User (including email, password, profile image, banner, nickname, last seen status, custom status and trees). Inherently, this also affected all Hydraulisc-powered platforms, including <a href="https://hydraulisc.net">The Hydraulisc App</a>, that relied on the Hydraulisc Native Authorisation Manager.</p>
-        <p>This was a <b style="text-decoration: underline; color: red;">MINOR</b> Security Vulnerability, which has already been patched.</p>
+        <p>This was a <b style="text-decoration: underline; color: var(--threat-minor);">MINOR</b> Security Vulnerability, which has already been patched.</p>
         
         <details>
             <summary>Skip to</summary>
@@ -69,24 +69,24 @@
             <table id="size-guide" style="min-width: 360px;">
                 <tbody>
                     <tr>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">HCSV Code</td>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">HCSV #002</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">HCSV Code</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">HCSV #002</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Severity</td>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">7</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Severity</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">7</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Date uncovered</td>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Jan. 13, 2024</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Date uncovered</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Jan. 13, 2024</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Date patched</td>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Jan. 15, 2024</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Date patched</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Jan. 15, 2024</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Paper release</td>
-                        <td style="padding: 10px; color: black; font-size: 15px; border-top: 1px solid black; border-left: 1px solid black; word-break: break-word;">Mar. 14, 2024</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Paper release</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Mar. 14, 2024</td>
                     </tr>
                 </tbody>
             </table>
