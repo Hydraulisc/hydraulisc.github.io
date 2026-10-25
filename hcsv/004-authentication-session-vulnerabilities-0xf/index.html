@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCSV #004 - Authentication Endpoint Denial of Service and Redirect Validation</title>
+    <link rel="icon" type="image/png" href="https://about.hydraulisc.net/assets/img/HCSV.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2" as="font" type="font/woff2" crossorigin="">
+    <link href="https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="../hcsv-style.css">
+    <link rel="stylesheet" href="/hcsv/hcsv-style.css">
+</head>
+<body>
+    <div class="author-and-title">
+        <div style="margin-bottom: 12px; font-size: 14px; line-height: 20px; font-weight: 400; color: #567; box-sizing: border-box;">Written by</div>
+        <div style="display: flex; padding-bottom: 4px; align-items: flex-start; flex-wrap: nowrap; box-sizing: border-box;">
+            <div style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
+                <a href="https://about.hydraulisc.net/team/" style="line-height: 1.25; font-size: 16px; display: flex; font-weight: 600; margin-right: 32px; margin-bottom: 16px; align-items: center; flex-wrap: nowrap; text-decoration: none; box-sizing: border-box;" tabindex="-1">
+                    <img class="author-avatar" src="" style="margin-right: 14px; max-width: 40px; height: auto; display: block; border-radius: 50%; box-sizing: border-box;"><span id="author-name">Loading...</span>
+                </a>
+            </div>
+        </div>
+        <div style="display: flex; padding-bottom: 4px; align-items: flex-start; flex-wrap: nowrap; box-sizing: border-box;">
+            <div style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
+                <a href="https://about.hydraulisc.net/team/" style="line-height: 1.25; font-size: 16px; display: flex; font-weight: 600; margin-right: 32px; margin-bottom: 16px; align-items: center; flex-wrap: nowrap; text-decoration: none; box-sizing: border-box;" tabindex="-1">
+                    <img class="author-avatar2" src="" style="margin-right: 14px; max-width: 40px; height: auto; display: block; border-radius: 50%; box-sizing: border-box;"><span id="author-name2">Loading...</span>
+                </a>
+            </div>
+        </div>
+        <h1>HCSV #004 - Authentication Endpoint Denial of Service and Redirect Validation</h1>
+    </div>
+    <div class="paper-content">
+        <h3>This paper goes over the Hydraulisc-Centric Security Vulnerability No.4 (<a href="https://about.hydraulisc.net/hcsv/004--0xf">HCSV #004</a>)</h3>
+        <p><b>HCSV #004</b>, titled "<b>Authentication Endpoint Denial of Service and Redirect Validation</b>", was a collection of security issues affecting the login flow, file uploads and related server-side request handling. The most serious finding was an unauthenticated process crash, allowing anyone to take a Hydraulisc instance offline with a single malformed login request. Further findings included an unvalidated post-login redirect, unauthenticated writes to disk, client-trusted upload types, session fixation, stale admin privileges, an invite code race condition and internal error disclosure.</p>
+        <p>This was a <b style="text-decoration: underline; text-transform: uppercase; color: var(--threat-critical);">CRITICAL</b> Security Vulnerability, which has been patched.</p>
+        
+        <details>
+            <summary>Skip to</summary>
+            <ul class="no-list-style">
+                <li><a href="#in-depth">Explanation: What is HCSV #004</a></li>
+                <li><a href="#patches">HCSV #004 Solution</a></li>
+                <li><a href="#technical-spreadsheet">Technical Spreadsheet</a></li>
+            </ul>
+        </details>
+    
+        <h3 id="in-depth">HCSV #004 - An in-depth explanation</h3> 
+        <p><b>Login crash.</b> The login endpoint assumed the username and password would always be text. If a request left one out, or sent it as a list of values instead of a single value, the server tried to process it anyway, hit an error it had no plan for, and the whole server process stopped. Nobody needed an account to do this, and one request was enough to take the instance offline for everyone. This kind of attack is called a <a href="https://developer.mozilla.org/en-US/docs/Glossary/Denial_of_Service" target="_blank">Denial of Service</a>.</p>
+        <p><b>Unchecked redirect.</b> The login page accepts a <code>?next=</code> parameter that says where to send you after you log in. Hydraulisc followed it without checking where it pointed, so a link like <code>/login?next=https://evil.example</code> would show the real Hydraulisc login page and then send the user to a fake site. This is called an <a href="https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" target="_blank">open redirect</a>.</p>
+        <p><b>Uploads saved before checking login.</b> The upload, avatar and banner endpoints saved the file to disk first and only checked afterwards whether the sender was logged in. The request was rejected, but the file had already been written. Anyone could repeat this to fill up the server's storage.</p>
+        <p><b>Upload type taken on trust.</b> When a file is uploaded, the sender's browser says what type of file it is, and that label is easy to fake. Hydraulisc only checked the label, so a file that was not an image could be stored by labelling it as one.</p>
+        <p><b>Session ID not renewed on login.</b> Your session ID is the value in your cookie that tells the server who you are. Hydraulisc kept the same session ID from before login to after login. If an attacker could plant a session ID in someone's browser before they logged in, the attacker could reuse that same ID afterwards and be logged in as them. This is called <a href="https://owasp.org/www-community/attacks/Session_fixation" target="_blank">session fixation</a>.</p>
+        <p><b>Admin status remembered too long.</b> Admin status was saved in the session at login and never checked again. If an admin was demoted, they kept admin access until their session expired, which could take up to 24 hours.</p>
+        <p><b>Invite codes could be used twice.</b> Registering with an invite code took two separate steps: first check that the code exists and is unused, then mark it as used. If two people registered with the same code at the same moment, both could pass the check before either had marked it used, and both accounts were created. A bug that depends on the timing of two actions like this is called a <a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank">race condition</a>.</p>
+        <p><b>Internal errors shown to users.</b> Some error messages included stack traces (the list of internal functions the server was running when it failed) and raw database errors. These show attackers how the server works inside.</p>
+        <br>
+        <h3 id="patches">HCSV #004 - What has been done</h3>
+        <p>Please note, the team at Hydraulisc-Centric Security Vulnerability have agreed that this Security Vulnerability is no longer reproducible.</p>
+        <ul>
+            <li>Reject missing or malformed login fields instead of crashing the process.</li>
+            <p>The login endpoint now checks that both fields are present and are plain text before doing anything else, and returns an error message if they are not.</p>
+            <li>Only allow same-site paths as post-login redirect targets.</li>
+            <p><code>?next=</code> must now be a path on Hydraulisc itself, such as <code>/settings</code>. Anything pointing to another website (<code>https://…</code>, <code>//…</code> or <code>/\…</code>) is ignored and the user goes to the home page.</p>
+            <li>Require login before anything is written to disk.</li>
+            <p>The backend now checks all uploads are performed by users that are logged in before attempting to store anything.</p>
+            <li>Validate upload contents server-side.</li>
+            <p>Every image format starts with a fixed set of bytes, called its "magic bytes" or signature. The server now reads the start of each uploaded file and only keeps it if it really is a JPEG, PNG, GIF or WebP image, whatever label it was sent with. Files that fail the check are deleted.</p>
+            <li>Serve uploads, avatars and banners with <code>nosniff</code> and a sandbox Content Security Policy.</li>
+            <p>These are two instructions sent along with each user-uploaded file. <code>nosniff</code> tells the browser not to guess the file type from its contents, and the sandbox policy tells it never to run anything inside the file. Even if a harmful file got through, the browser would not open it as a web page.</p>
+            <li>Regenerate the session ID on login and registration.</li>
+            <p>Logging in or registering now issues a brand new session ID and discards the old one, so an ID from before login is useless afterwards.</p>
+            <li>Check admin status from the database instead of the session.</li>
+            <p>Every admin action now asks the database whether the user is still an admin, so removing admin rights takes effect immediately.</p>
+            <li>Claim invite codes atomically and cap invite generation at 100.</li>
+            <p>"Atomically" means in a single, indivisible step. The check and the "mark as used" now happen in one database command ("mark this code as used, but only if it is still unused"), and only the registration that actually changed the code is allowed through. There is no longer a gap between checking and marking for a second registration to slip into. Admins can also generate at most 100 invite codes per request.</p>
+            <li>Stop disclosing internal errors.</li>
+            <p>A single error handler now catches every error. Users see a short, generic message, and the details are only written to the server's own logs.</p>
+            <li>Added helmet security headers.</li>
+            <p><a href="https://helmetjs.github.io/" target="_blank">helmet</a> adds a standard set of protective instructions to every response, for example stopping other websites from embedding Hydraulisc pages in a hidden frame to trick users into clicking things (<a href="https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/Clickjacking" target="_blank">clickjacking</a>).</p>
+            <li>Bump multer, body-parser and undici.</li>
+            <p>These libraries handle uploads, form data and network requests. They were updated to versions that fix known security issues.</p>
+        </ul>
+        <br>
+        <h3 id="technical-spreadsheet">Technical Spreadsheet</h3>
+        <p style="font-size: smaller;"><b>Guide</b>: Severity Numbers: Lower is better. Maximum value of 20, lowest of 1.</p>
+        <div>
+            <table id="size-guide" style="min-width: 360px;">
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">HCSV Code</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">HCSV #004</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Severity</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">18</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Date uncovered</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Oct. 24, 2026</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Date patched</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Oct. 24, 2026</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Paper release</td>
+                        <td style="padding: 10px; color: var(--text); font-size: 15px; border-top: 1px solid var(--text); border-left: 1px solid var(--text); word-break: break-word;">Oct. 25, 2026</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        async function getUserInfo(userId) {
+            try {
+                const response = await fetch(`https://hydraulisc.net/api/${userId}`, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if(!response.ok) {
+                    throw new Error('HTTP Error! Status: ' + response.status);
+                }
+                return await response.json();
+            } catch(error) {
+                console.log(error);
+                return null;
+            }
+        }
+
+        getUserInfo(1).then(data => {
+            document.querySelector("#author-name").textContent = data.user.username;
+            document.querySelector(".author-avatar").src = `https://hydraulisc.net/${data.user.pfp}`;
+        })
+        getUserInfo(2).then(data => {
+            document.querySelector("#author-name2").textContent = data.user.username;
+            document.querySelector(".author-avatar2").src = `https://hydraulisc.net/${data.user.pfp}`;
+        })
+    </script>
+</body>
+</html>
